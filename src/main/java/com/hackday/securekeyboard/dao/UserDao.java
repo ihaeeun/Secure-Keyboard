@@ -4,7 +4,9 @@ import com.hackday.securekeyboard.dto.ResRegisterResultDto;
 import com.hackday.securekeyboard.vo.User;
 
 public interface UserDao {
-    User getUser(int user_id);
+//    User getUser(int user_id);
     boolean isExistedUser(int userId);
-    int setToken(int userId, String token);
+    boolean checkPassword(int userId, String payPw);
+    int updateToken(int userId, String token);
+    String getToken(int userId);
 }

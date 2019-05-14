@@ -3,7 +3,6 @@ package com.hackday.securekeyboard.service;
 import com.hackday.securekeyboard.dao.UserDao;
 import com.hackday.securekeyboard.dto.ReqRegisterCardDto;
 import com.hackday.securekeyboard.dto.ReqRegisterToCompDto;
-import com.hackday.securekeyboard.dto.ResRegisterResultDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,7 +28,7 @@ public class RegisterServiceImpl implements RegisterService{
 
     @Override
     public void updateToken(int userId, String token) {
-        userDao.setToken(userId, token);
+        userDao.updateToken(userId, token);
     }
 
     private ReqRegisterToCompDto convert(ReqRegisterCardDto reqRegisterCardDto){

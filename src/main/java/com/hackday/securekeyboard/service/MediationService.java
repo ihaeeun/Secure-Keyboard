@@ -8,5 +8,5 @@ import com.hackday.securekeyboard.vo.CardCompanyInfo;
 
 public interface MediationService {
     ResRegisterResultDto registerCard(CardCompanyInfo cardCompanyInfo, ReqRegisterToCompDto reqRegisterToCompDto);
-    ResApprovalResultDto approvalPayment(ReqApprovalToCompDto reqApprovalToCompDto);
+    ResApprovalResultDto approvalPayment(CardCompanyInfo cardCompanyInfo, ReqApprovalToCompDto reqApprovalToCompDto);
 }

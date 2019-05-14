@@ -7,7 +7,6 @@ import com.hackday.securekeyboard.dto.ReqRegisterToCompDto;
 import com.hackday.securekeyboard.dto.ResApprovalResultDto;
 import com.hackday.securekeyboard.dto.ResRegisterResultDto;
 import com.hackday.securekeyboard.vo.CardCompanyInfo;
-import lombok.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -28,27 +27,45 @@ public class MediationServiceImpl implements MediationService{
     public ResRegisterResultDto registerCard(CardCompanyInfo cardCompanyInfo, ReqRegisterToCompDto reqRegisterToCompDto) {
 
         String companyUrl = cardCompanyInfo.getUrl();
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(companyUrl)
+                .path("/validation/card");
 
+        HttpEntity<?> httpEntity = new HttpEntity<>(jsonMapper(reqRegisterToCompDto), setHttpHeader());
+
+        return restTemplate.postForObject(uriComponentsBuilder.toUriString(), httpEntity, ResRegisterResultDto.class);
+    }
+
+    @Override
+    public ResApprovalResultDto approvalPayment(CardCompanyInfo cardCompanyInfo, ReqApprovalToCompDto reqApprovalToCompDto) {
+        String companyUrl = cardCompanyInfo.getUrl();
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(companyUrl)
+                .path("/approval/card");
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(jsonMapper(reqApprovalToCompDto), setHttpHeader());
+
+        return restTemplate.postForObject(uriComponentsBuilder.toUriString(), httpEntity, ResApprovalResultDto.class);
+
+    }
+
+
+    private HttpHeaders setHttpHeader(){
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        return httpHeaders;
+    }
 
-//        @TODO: Exception 처리
+    private String jsonMapper(Object object){
         ObjectMapper objectMapper = new ObjectMapper();
         String dtoJson = null;
+
+//        @TODO: Exception
         try {
-            dtoJson = objectMapper.writeValueAsString(reqRegisterToCompDto);
+            dtoJson = objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-        HttpEntity<?> httpEntity = new HttpEntity<>(dtoJson, httpHeaders);
-
-        return restTemplate.postForObject(companyUrl, httpEntity, ResRegisterResultDto.class);
-    }
-
-    @Override
-    public ResApprovalResultDto approvalPayment(ReqApprovalToCompDto reqApprovalToCompDto) {
-        return null;
+        return dtoJson;
     }
 }

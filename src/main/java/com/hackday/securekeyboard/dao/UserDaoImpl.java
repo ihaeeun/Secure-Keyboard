@@ -15,13 +15,6 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User getUser(int userId) {
-        String selectPayPwQuery = "SELECT * FROM users WHERE user_id = ?";
-        User user = jdbcTemplate.queryForObject(selectPayPwQuery, new Object[]{userId}, new BeanPropertyRowMapper<>(User.class));
-        return null;
-    }
-
-    @Override
     public boolean isExistedUser(int userId){
         String checkUserQuery = "SELECT EXISTS (SELECT * FROM users WHERE user_id = ?) AS success";
         int result = jdbcTemplate.queryForObject(checkUserQuery, new Object[]{userId}, Integer.class);
@@ -30,8 +23,28 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public int setToken(int userId, String token) {
+    public boolean checkPassword(int userId, String payPw) {
+        User user = selectUser(userId);
+        String  password = user.getPayPw();
+
+        return payPw.equals(password);
+    }
+
+    @Override
+    public int updateToken(int userId, String token) {
         String updateTokenQuery = "UPDATE users SET token = ? WHERE user_id = ?";
         return jdbcTemplate.update(updateTokenQuery, token, userId);
+    }
+
+    @Override
+    public String getToken(int userId) {
+        User user = selectUser(userId);
+        return user.getToken();
+    }
+
+    private User selectUser(int userId) {
+        String selectPayPwQuery = "SELECT * FROM users WHERE user_id = ?";
+        User user = jdbcTemplate.queryForObject(selectPayPwQuery, new Object[]{userId}, new BeanPropertyRowMapper<>(User.class));
+        return user;
     }
 }
