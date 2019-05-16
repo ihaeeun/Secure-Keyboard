@@ -17,10 +17,8 @@ public class IndexController {
 
     @GetMapping("/register/{card-company}")
     public String register(@PathVariable("card-company") String company, Model model){
-        model.addAttribute("");
         return "register";
     }
-
 
 }
 
