@@ -90,6 +90,13 @@
             font-weight: 700;
             text-align: left;
         }
+
+        #btn-keypad{
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+
+        }
+
     </style>
 
     <link rel=" shortcut icon" href="/templates/src/img/favicon.ico">
@@ -97,6 +104,7 @@
 
 </head>
 <body>
+<img>
 <!--Header:: begin-->
 <div class="header-container">
     <h3>Secure Keyboard</h3>
@@ -111,7 +119,7 @@
             <img id="card-label" style="width:50px;height:20px;">
         </div>
         <div style="text-align:left; width: 100%;">
-            <img src="/templates/src/img/credit_card.png" style="width:25px;height:13px;">
+            <img src="/templates/src/img/credit-card.png" style="width:25px;height:13px;">
             카드 정보를 입력해 주세요
         </div>
         <div style="width: 100%; text-align: left; margin-top: 10px; background-color: rgba(0, 0, 0, 0.08); display: inline-block;">
@@ -136,7 +144,7 @@
                 </div>
             </div>
             <div class="in-block-text">※ 보안 키보드를 통해 입력해 주세요.</div>
-            <div style="float: right; background-color: white; margin: 10px; padding: 5px; font-size: 10px;">
+            <div id="btn-keypad" onclick="keyPad()" style="float: right; background-color: white; margin: 10px; padding: 5px; font-size: 10px;">
                 키보드
             </div>
         </div>
@@ -144,18 +152,59 @@
     <!--Card Information Input:: end-->
     <!--Action Button:: begin-->
     <div class="container">
-        <a href="#" class="button button-3d button-green"><i class="icon-repeat"></i>확인</a>
-        <a href="#" class="button button-3d button-gray" style="color: black;"><i class="icon-repeat"></i>취소</a>
+        <a class="button button-3d button-green" onclick="sendCardInfo()"><i class="icon-repeat"></i>확인</a>
+        <a class="button button-3d button-gray" style="color: black;" onclick="closeWindow()"><i class="icon-repeat"></i>취소</a>
     </div>
     <!--Action Button:: end-->
 </div>
 <!--Content::end-->
 
-<script>
-    var card = window.location.pathname.split('/')[2];
-    console.log(card);
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    // set label image
+    var card = window.location.pathname.split('/')[2];
     document.getElementById('card-label').setAttribute('src', '/templates/src/img/label-' + card + '.png');
+
+    // card info variable
+    var cardNumbers = [];
+
+    // keypad click event
+    $(document).ready(function() {
+        $("#keypad").on("click", function(event) {
+            var x = event.pageX - this.offsetLeft;
+            var y = event.pageY - this.offsetTop;
+            pushCode(x,y);
+        });
+    });
+
+    function pushCode(x, y){
+
+    }
+
+    function sendCardInfo(){
+        if(cardNumbers.length !== 16){
+            alert("카드 번호를 모두 입력해 주세요.");
+            return;
+        }
+
+        xhr = new XMLHttpRequest();
+        url = "101.101.166.145/register/card/" + card;
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function (){
+            if(xhr.readyState === 4 && xhr.status === 200){
+                console.log(JSON.parese(xhr.responseText));
+            }
+        };
+        var data = JSON.stringify(cardNumbers);
+        xhr.send("{'cardNumbers':" + data + "}");
+    }
+
+    function closeWindow(){
+        window.close();
+    }
+
 </script>
 </body>
 </html>
