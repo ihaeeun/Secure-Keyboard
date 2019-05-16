@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Keyboard - 2019 Summer Hackday</title>
+    <style>
+        .header-container {
+            text-align: center;
+            vertical-align: center;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-bottom: 3px solid rgba(0, 0, 0, 0.15);
+            background-color: #59BA41;
+        }
+
+        .header-container > h3 {
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .button {
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+            white-space: nowrap;
+            padding: 0 22px;
+            font-size: 14px;
+            height: 40px;
+            line-height: 40px;
+            color: #FFF;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+            margin: 5px 50px;
+        }
+
+        .button-green {
+            background-color: #59BA41;
+        }
+
+        .button-gray {
+            background-color: #fafafc;
+        }
+
+        .button.button-3d {
+            border-radius: 3px;
+            border-bottom: 3px solid rgba(0, 0, 0, 0.15);
+        }
+
+        .container .button {
+            text-decoration: none;
+        }
+
+        .company-table > tbody > tr > td {
+            width: 50px;
+            height: 50px;
+            border: 1px solid gray;
+            font-size: 8px;
+        }
+
+        .container > * {
+            margin-top: 20px;
+        }
+
+        img {
+            width: 45px;
+        }
+
+        caption {
+            margin-bottom: 10px;
+        }
+
+        .number-container {
+            display: inline-block;
+            background-color: whitesmoke;
+            width: 90px;
+        }
+
+        .in-block-text {
+            margin-left: 20px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: left;
+        }
+    </style>
+
+    <link rel=" shortcut icon" href="/templates/src/img/favicon.ico">
+    <link rel="icon" href="/templates/src/img/favicon.ico">
+
+</head>
+<body>
+<!--Header:: begin-->
+<div class="header-container">
+    <h3>Secure Keyboard</h3>
+</div>
+<!--Header:: end-->
+
+<!--Content:: begin-->
+<div class="container">
+    <!--Card Information Input:: begin-->
+    <div id="card-form" style="padding: auto; margin-left: 10px; margin-right: 10px;">
+        <div style="width: 20px; text-align: left;">
+            <img id="card-label" style="width:50px;height:20px;">
+        </div>
+        <div style="text-align:left; width: 100%;">
+            <img src="/templates/src/img/credit_card.png" style="width:25px;height:13px;">
+            카드 정보를 입력해 주세요
+        </div>
+        <div style="width: 100%; text-align: left; margin-top: 10px; background-color: rgba(0, 0, 0, 0.08); display: inline-block;">
+            <div class="in-block-text">
+                카드 번호
+            </div>
+            <div style="text-align: center;">
+                <div class="number-container">
+                    &nbsp;
+                </div>
+                -
+                <div class="number-container">
+                    &nbsp;
+                </div>
+                -
+                <div class="number-container">
+                    &nbsp;
+                </div>
+                -
+                <div class="number-container">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="in-block-text">※ 보안 키보드를 통해 입력해 주세요.</div>
+            <div style="float: right; background-color: white; margin: 10px; padding: 5px; font-size: 10px;">
+                키보드
+            </div>
+        </div>
+    </div>
+    <!--Card Information Input:: end-->
+    <!--Action Button:: begin-->
+    <div class="container">
+        <a href="#" class="button button-3d button-green"><i class="icon-repeat"></i>확인</a>
+        <a href="#" class="button button-3d button-gray" style="color: black;"><i class="icon-repeat"></i>취소</a>
+    </div>
+    <!--Action Button:: end-->
+</div>
+<!--Content::end-->
+
+<script>
+    var card = window.location.pathname.split('/')[2];
+    console.log(card);
+
+    document.getElementById('card-label').setAttribute('src', '/templates/src/img/label-' + card + '.png');
+</script>
+</body>
+</html>
