@@ -17,14 +17,19 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import com.hackday.securekeyboard.dto.KeypadDto;
+import com.hackday.securekeyboard.util.Encryption;
 //import com.hackday.securekeyboard.util.Encryption;
 
 @Service
 public class SecureKeyboardServiceImpl implements SecureKeyboardService {
+
+    @Autowired
+    private Encryption encryptionUtil;
 
     private String getBase64FromFile(String classPathResource) {
         byte[] fileContent = null;
@@ -41,17 +46,12 @@ public class SecureKeyboardServiceImpl implements SecureKeyboardService {
     @Override
     public ArrayList<KeypadDto> generateKeypadImages() {
         ArrayList<KeypadDto> keypadDtoList = new ArrayList<KeypadDto>(10);
-//        Encryption encryptionUtil = new Encryption();
         List<String> hashedKeyList = null;
-//        try {
-//            hashedKeyList = encryptionUtil.rsaToSha1(encryptionUtil.rsaEncryption());
-//        } catch (Exception e) {
-//            // TODO : runtime exception 상속받아서 던질 것!
-//            e.printStackTrace();
-//        }
-        hashedKeyList = new ArrayList<>(10);
-        for (int i = 0; i < 10; i++) {
-            hashedKeyList.add("hashvalue" + i);
+        try {
+            hashedKeyList = encryptionUtil.rsaToSha1(encryptionUtil.rsaEncryption());
+        } catch (Exception e) {
+            // TODO : runtime exception 상속받아서 던질 것!
+            e.printStackTrace();
         }
 
         // 이미지 불러와서 base64 적용하고,

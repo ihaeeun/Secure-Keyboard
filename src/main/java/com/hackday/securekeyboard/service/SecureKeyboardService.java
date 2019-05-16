@@ -7,5 +7,5 @@ import java.util.ArrayList;
 import com.hackday.securekeyboard.dto.KeypadDto;
 
 public interface SecureKeyboardService {
-    public ArrayList<KeypadDto> generateKeypadImages() throws IOException;
+    public ArrayList<KeypadDto> generateKeypadImages();
 }

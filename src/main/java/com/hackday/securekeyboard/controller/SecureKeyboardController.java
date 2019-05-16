@@ -2,6 +2,7 @@ package com.hackday.securekeyboard.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,13 +27,8 @@ public class SecureKeyboardController {
     public String getSecureKeyboard(@PathVariable("card-company") String cardCompany,
                 Model model){
 
-        ArrayList<KeypadDto> keypadDtos = null;
-        try {
-            keypadDtos = secureKeyboardService.generateKeypadImages();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "500";
-        }
+        ArrayList<KeypadDto> keypadDtos = secureKeyboardService.generateKeypadImages();
+        model.addAttribute("keyMapId", UUID.randomUUID().toString().replaceAll("-", ""));
         model.addAttribute("keypadDtoList", keypadDtos);
         return "secure-keyboard";
     }
