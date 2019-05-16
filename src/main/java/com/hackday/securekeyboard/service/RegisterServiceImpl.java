@@ -3,6 +3,7 @@ package com.hackday.securekeyboard.service;
 import com.hackday.securekeyboard.dao.UserDao;
 import com.hackday.securekeyboard.dto.ReqRegisterCardDto;
 import com.hackday.securekeyboard.dto.ReqRegisterToCompDto;
+import com.hackday.securekeyboard.exception.NotFoundUser;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,9 +21,7 @@ public class RegisterServiceImpl implements RegisterService{
         if(checkUser) {
             return convert(reqRegisterCardDto);
         } else {
-            System.out.println("해당하는 유저가 없습니다.");
-//            @TODO Exception 처리
-            return null;
+            throw new NotFoundUser();
         }
     }
 

@@ -26,6 +26,8 @@ public class PaymentController {
         CardCompanyInfo cardCompanyInfo = CardCompanyInfo.valueOfName(cardCompany);
         String companyName = cardCompanyInfo.getName();
         return "secure-keyboard.html";
+//        String img = "../static/images/" + companyName + ".png";
+//        return img;
     }
 
     @PostMapping("/check/{card-company}")
