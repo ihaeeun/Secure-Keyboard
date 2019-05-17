@@ -232,8 +232,7 @@
         jsonValue.reqId= document.getElementById('request-hidden-value').getAttribute('data-key-map-id');
 
         var X = new XMLHttpRequest();
-        var url = "127.0.0.1:8080/register/card/" + card;
-        console.log(url);
+        var url = "http://127.0.0.1:8080/register/card/woori";
         X.open('POST', url, true);
         X.setRequestHeader("Content-Type", "application/json");
         X.onreadystatechange = function () {
@@ -242,7 +241,7 @@
                 console.log(json);
             }
         };
-        X.send(jsonValue);
+        X.send(JSON.stringify(jsonValue));
     }
 
     function closeWindow(){
@@ -251,13 +250,6 @@
 
 
     function createElementFromHTML(htmlString) {
-        // DOC = new DOMParser().parseFromString(htmlString.trim(), "text/xml");
-        // btn = DOC.getElementsByName('btn-secure');
-        // for(var idx = 0; idx < 12; idx++){
-        //     document.getElementsByName('secure-btn-container')[idx].appendChild(btn[idx]);
-        // }
-        // Change this to div.childNodes to support multiple top-level nodes
-        // return div.firstChild;
         div = document.getElementById('secure-keyboard-container');
         div.innerHTML = htmlString;
 

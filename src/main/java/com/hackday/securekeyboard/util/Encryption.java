@@ -29,6 +29,8 @@ public class Encryption {
     public List<String> rsaEncryption() throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException {
         List<String> rsaNumbers = new ArrayList<String>();
 
+        log.debug("{}", publicKey);
+
         Key decodedKey = KeyFactory.getInstance("RSA").generatePublic(
             new X509EncodedKeySpec(Base64.getDecoder().decode(publicKey)));
 
