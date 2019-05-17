@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReqRegisterCardDto {
-    private int reqId;
+    private String reqId;
     private List<String> cardNumbers;
 }

@@ -23,7 +23,7 @@ public class RegisterServiceImpl implements RegisterService{
         return reqRegisterToCompDto;
     }
 
-    private List<String> compareHash(List<String> userInput, int reqId){
+    private List<String> compareHash(List<String> userInput, String reqId){
         List<String> results = new ArrayList<>();
 
         KeyMappingSet keyMap = globalKeyMappingTable.get(reqId);
