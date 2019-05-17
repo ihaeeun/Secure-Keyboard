@@ -1,12 +1,10 @@
 package com.hackday.securekeyboard;
 
-import java.util.Hashtable;
-import java.util.UUID;
-
+import com.hackday.securekeyboard.vo.KeyMappingSet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.hackday.securekeyboard.vo.KeyMappingSet;
+import java.util.Hashtable;
 
 @SpringBootApplication
 public class SecureKeyboardApplication {

@@ -1,8 +1,8 @@
 package com.hackday.securekeyboard.vo;
 
-import java.util.ArrayList;
-
 import lombok.Data;
+
+import java.util.ArrayList;
 
 @Data
 public class KeyMappingSet {

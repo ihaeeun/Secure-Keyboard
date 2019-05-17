@@ -1,16 +1,12 @@
 package com.hackday.securekeyboard.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.hackday.securekeyboard.dto.KeypadDto;
 import com.hackday.securekeyboard.service.SecureKeyboardService;
 
@@ -25,7 +21,7 @@ public class SecureKeyboardController {
 
     @GetMapping("/{card-company}")
     public String getSecureKeyboard(@PathVariable("card-company") String cardCompany,
-                Model model){
+                                    Model model) {
 
         ArrayList<KeypadDto> keypadDtos = secureKeyboardService.generateKeypadImages();
         String uuid = secureKeyboardService.addToKeyMappingTable(keypadDtos);

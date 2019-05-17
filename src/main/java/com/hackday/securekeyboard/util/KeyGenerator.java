@@ -1,5 +1,6 @@
 package com.hackday.securekeyboard.util;
 
+import javax.crypto.Cipher;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -21,12 +22,6 @@ public class KeyGenerator {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             RSAPublicKeySpec publicKeySpec = keyFactory.getKeySpec(publicKey, RSAPublicKeySpec.class);
             RSAPrivateKeySpec privateKeySpec = keyFactory.getKeySpec(privateKey, RSAPrivateKeySpec.class);
-
-            System.out.println("public key modulus(" + publicKeySpec.getModulus() + ") exponent(" + publicKeySpec.getPublicExponent() + ")");
-            System.out.println("private key modulus(" + privateKeySpec.getModulus() + ") exponent(" + privateKeySpec.getPrivateExponent() + ")");
-
-            System.out.println("publicKey : " + publicKey.getEncoded().toString());
-            System.out.println("privateKey : " + privateKey.getEncoded().toString());
 
         } catch (Exception e) {
             e.printStackTrace();
