@@ -97,6 +97,9 @@
 
         }
 
+        .btn-secure{
+            width: 30%;
+        }
     </style>
 
     <link rel=" shortcut icon" href="/templates/src/img/favicon.ico">
@@ -144,7 +147,7 @@
                 </div>
             </div>
             <div class="in-block-text">※ 보안 키보드를 통해 입력해 주세요.</div>
-            <div id="btn-keypad" onclick="keyPad()" style="float: right; background-color: white; margin: 10px; padding: 5px; font-size: 10px;">
+            <div id="btn-keypad" style="float: right; background-color: white; margin: 10px; padding: 5px; font-size: 10px; cursor:pointer;">
                 키보드
             </div>
         </div>
@@ -159,6 +162,11 @@
 </div>
 <!--Content::end-->
 
+<!--Secure Keyboard:: begin-->
+<div id="secure-keyboard-container" style="width:100%; height: 200px; margin-top: 20px; margin-left: 15px; padding: auto;">
+
+</div>
+<!--Secure Keyboard:: end-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
@@ -169,17 +177,48 @@
     // card info variable
     var cardNumbers = [];
 
+    function pushNumber(value){
+        if(cardNumbers.length < 16){
+            cardNumbers.push(value);
+            if(cardNumbers.length < 5){
+                document.getElementsByClassName('number-container')[0].innerHTML += '*';
+            }else if(cardNumbers.length < 9){
+                document.getElementsByClassName('number-container')[1].innerHTML += '*';
+            }else if(cardNumbers.length < 13){
+                document.getElementsByClassName('number-container')[2].innerHTML += '*';
+            }else{
+                document.getElementsByClassName('number-container')[3].innerHTML += '*';
+            }
+        }
+    }
+
+    function popNumber(value){
+        if(cardNumbers.length > 0){
+            cardNumbers.pop();
+        }
+    }
+
     // keypad click event
-    $(document).ready(function() {
-        $("#keypad").on("click", function(event) {
-            var x = event.pageX - this.offsetLeft;
-            var y = event.pageY - this.offsetTop;
-            pushCode(x,y);
-        });
+    $("#btn-keypad").click(function(){
+        getKeybaord();
     });
 
-    function pushCode(x, y){
 
+    var isCall = false;
+
+    function getKeybaord(){
+        // console.log("in getKeyboard!");
+        // $.get("127.0.0.1:8080", function(data, status){
+        //     console.log("Data: " + data + "\nStatus: " + status);
+        // });
+        if(isCall === false) {
+            var X = new XMLHttpRequest();
+            var url = 'http://127.0.0.1:8080/securekeyboard/hana';
+            X.open('GET', url, false);
+            X.send();
+            createElementFromHTML(X.responseText);
+            isCall = true;
+        }
     }
 
     function sendCardInfo(){
@@ -189,7 +228,7 @@
         }
 
         xhr = new XMLHttpRequest();
-        url = "101.101.166.145/register/card/" + card;
+        url = "127.0.0.1:8080/register/card/" + card;
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function (){
@@ -205,6 +244,23 @@
         window.close();
     }
 
+
+    function createElementFromHTML(htmlString) {
+        // DOC = new DOMParser().parseFromString(htmlString.trim(), "text/xml");
+        // btn = DOC.getElementsByName('btn-secure');
+        // for(var idx = 0; idx < 12; idx++){
+        //     document.getElementsByName('secure-btn-container')[idx].appendChild(btn[idx]);
+        // }
+        // Change this to div.childNodes to support multiple top-level nodes
+        // return div.firstChild;
+        div = document.getElementById('secure-keyboard-container');
+        div.innerHTML = htmlString;
+
+        $('.btn-secure').on('click', function(){
+            pushNumber(this.getAttribute('data-value'));
+        });
+
+    }
 </script>
 </body>
 </html>
