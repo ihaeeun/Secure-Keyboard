@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+
 @RestController
 @RequestMapping(value = "/register")
 public class RegisterController {
@@ -21,28 +23,18 @@ public class RegisterController {
         this.mediationService = mediationService;
     }
 
-//    @TODO : 회사별 이미지
-    @GetMapping("/{card-company}")
-    public String getSecureKeyboard(@PathVariable("card-company") String cardCompany){
-        CardCompanyInfo cardCompanyInfo = CardCompanyInfo.valueOfName(cardCompany);
-        String companyName = cardCompanyInfo.getName();
-        return "secure-keyboard.html";
-    }
-
     @PostMapping("/card/{card-company}")
     public ResponseEntity registerCard(@PathVariable("card-company") String cardCompany,
                                        @RequestBody ReqRegisterCardDto reqRegisterCardDto){
 
         CardCompanyInfo cardCompanyInfo = CardCompanyInfo.valueOfName(cardCompany);
 
-        ReqRegisterToCompDto reqRegisterToCompDto = registerService.registerCard(reqRegisterCardDto);
+        ReqRegisterToCompDto reqRegisterToCompDto = registerService.compareHashing(reqRegisterCardDto);
         ResRegisterResultDto resRegisterResultDto = mediationService.registerCard(cardCompanyInfo, reqRegisterToCompDto);
-
-        registerService.updateToken(reqRegisterCardDto.getUserId(), resRegisterResultDto.getToken());
 
 //        @TODO : client response
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .build();
+                .status(HttpStatus.OK)
+                .body(resRegisterResultDto);
     }
 }

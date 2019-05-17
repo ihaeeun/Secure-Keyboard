@@ -9,6 +9,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class ResRegisterResultDto {
-    private String result;
-    private String token;
+    private boolean status;
+    private String cardNo;
 }

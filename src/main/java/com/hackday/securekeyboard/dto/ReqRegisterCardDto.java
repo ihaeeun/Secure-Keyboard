@@ -3,15 +3,15 @@ package com.hackday.securekeyboard.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReqRegisterCardDto {
-    private int userId;
-    private String cardNum;
-    private String expiredDate;
-    private String cvc;
-    private String cardPw;
-    private String juminNum;
+    private int reqId;
+    private List<String> cardNumbers;
 }

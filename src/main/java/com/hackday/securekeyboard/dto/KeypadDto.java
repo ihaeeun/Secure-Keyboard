@@ -7,8 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ReqPaymentDto {
-    private int userId;
-    private int price;
-    private String payPw;
+public class KeypadDto {
+    private String hash;
+    private String base64;
 }

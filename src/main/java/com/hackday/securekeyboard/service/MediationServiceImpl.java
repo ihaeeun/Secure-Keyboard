@@ -7,6 +7,7 @@ import com.hackday.securekeyboard.dto.ReqRegisterToCompDto;
 import com.hackday.securekeyboard.dto.ResApprovalResultDto;
 import com.hackday.securekeyboard.dto.ResRegisterResultDto;
 import com.hackday.securekeyboard.vo.CardCompanyInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+@Slf4j
 @Service
 public class MediationServiceImpl implements MediationService{
     private final RestTemplate restTemplate;
@@ -28,10 +30,9 @@ public class MediationServiceImpl implements MediationService{
 
         String companyUrl = cardCompanyInfo.getUrl();
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(companyUrl)
-                .path("/validation/card");
+                .path("/api/register");
 
         HttpEntity<?> httpEntity = new HttpEntity<>(jsonMapper(reqRegisterToCompDto), setHttpHeader());
-
         return restTemplate.postForObject(uriComponentsBuilder.toUriString(), httpEntity, ResRegisterResultDto.class);
     }
 

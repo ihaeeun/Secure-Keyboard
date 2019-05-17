@@ -1,45 +1,41 @@
 package com.hackday.securekeyboard.service;
 
-import com.hackday.securekeyboard.dao.UserDao;
 import com.hackday.securekeyboard.dto.ReqRegisterCardDto;
 import com.hackday.securekeyboard.dto.ReqRegisterToCompDto;
-import com.hackday.securekeyboard.exception.NotFoundUser;
+import com.hackday.securekeyboard.vo.KeyMappingSet;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.hackday.securekeyboard.SecureKeyboardApplication.globalKeyMappingTable;
+
+@Slf4j
 @Service
 public class RegisterServiceImpl implements RegisterService{
-    private final UserDao userDao;
-
-    public RegisterServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
     @Override
-    public ReqRegisterToCompDto registerCard(ReqRegisterCardDto reqRegisterCardDto) {
-        boolean checkUser = userDao.isExistedUser(reqRegisterCardDto.getUserId());
-
-        if(checkUser) {
-            return convert(reqRegisterCardDto);
-        } else {
-            throw new NotFoundUser();
-        }
-    }
-
-    @Override
-    public void updateToken(int userId, String token) {
-        userDao.updateToken(userId, token);
-    }
-
-    private ReqRegisterToCompDto convert(ReqRegisterCardDto reqRegisterCardDto){
+    public ReqRegisterToCompDto compareHashing(ReqRegisterCardDto reqRegisterCardDto) {
         ReqRegisterToCompDto reqRegisterToCompDto = new ReqRegisterToCompDto();
-
-        reqRegisterToCompDto.setCardNum(reqRegisterCardDto.getCardNum());
-        reqRegisterToCompDto.setExpiredDate(reqRegisterCardDto.getExpiredDate());
-        reqRegisterToCompDto.setCvc(reqRegisterCardDto.getCvc());
-        reqRegisterToCompDto.setCardPw(reqRegisterCardDto.getCardPw());
-        reqRegisterToCompDto.setJuminNum(reqRegisterCardDto.getJuminNum());
+        reqRegisterToCompDto.setEncryptedCardNo(compareHash(reqRegisterCardDto.getCardNumbers(), reqRegisterCardDto.getReqId()));
 
         return reqRegisterToCompDto;
+    }
+
+    private List<String> compareHash(List<String> userInput, int reqId){
+        List<String> results = new ArrayList<>();
+
+        KeyMappingSet keyMap = globalKeyMappingTable.get(reqId);
+
+        for(String input : userInput){
+            for(int i = 0; i < keyMap.getHashedAndEncrypted().size(); i++){
+                if(input.equals(keyMap.getHashedAndEncrypted().get(i))){
+                    results.add(keyMap.getEncrytedOnly().get(i));
+                }
+            }
+        }
+        return results;
     }
 
 }

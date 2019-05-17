@@ -1,10 +1,7 @@
 package com.hackday.securekeyboard.service;
 
-import com.hackday.securekeyboard.dto.ReqRegisterCardDto;
-import com.hackday.securekeyboard.dto.ReqRegisterToCompDto;
-import com.hackday.securekeyboard.dto.ResRegisterResultDto;
+import com.hackday.securekeyboard.dto.*;
 
 public interface RegisterService {
-    ReqRegisterToCompDto registerCard(ReqRegisterCardDto reqRegisterCardDto);
-    void updateToken (int userId, String token);
+    ReqRegisterToCompDto compareHashing(ReqRegisterCardDto reqRegisterCardDto);
 }
