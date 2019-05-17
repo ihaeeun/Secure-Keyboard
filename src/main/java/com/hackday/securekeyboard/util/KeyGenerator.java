@@ -26,9 +26,6 @@ public class KeyGenerator {
             System.out.println("public key modulus(" + publicKeySpec.getModulus() + ") exponent(" + publicKeySpec.getPublicExponent() + ")");
             System.out.println("private key modulus(" + privateKeySpec.getModulus() + ") exponent(" + privateKeySpec.getPrivateExponent() + ")");
 
-            System.out.println("publicKey : " + publicKey.getEncoded().toString());
-            System.out.println("privateKey : " + privateKey.getEncoded().toString());
-
         } catch (Exception e) {
             e.printStackTrace();
         }
