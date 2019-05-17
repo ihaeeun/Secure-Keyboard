@@ -3,7 +3,7 @@
 <body>
 <input type="hidden" th:data-key-map-id="${keyMapId}" />
 <th:block th:each="keypadDto : ${keypadDtoList}">
-    <img th:data-value="${keypadDto.getHashAndEncryptedValue()}" th:src="'data:image/png;base64, ' + ${keypadDto.getB64String()}"/>
+    <img name="key-item" th:data-value="${keypadDto.getHashAndEncryptedValue()}" th:src="'data:image/png;base64, ' + ${keypadDto.getB64String()}"/>
 </th:block>
 </body>
 </html>
