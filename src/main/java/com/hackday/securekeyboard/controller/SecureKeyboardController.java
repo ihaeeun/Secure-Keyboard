@@ -28,8 +28,10 @@ public class SecureKeyboardController {
                 Model model){
 
         ArrayList<KeypadDto> keypadDtos = secureKeyboardService.generateKeypadImages();
-        model.addAttribute("keyMapId", UUID.randomUUID().toString().replaceAll("-", ""));
+        String uuid = secureKeyboardService.addToKeyMappingTable(keypadDtos);
+        model.addAttribute("keyMapId", uuid);
         model.addAttribute("keypadDtoList", keypadDtos);
+
         return "secure-keyboard";
     }
 }

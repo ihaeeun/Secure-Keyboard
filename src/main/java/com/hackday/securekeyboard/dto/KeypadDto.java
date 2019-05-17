@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KeypadDto {
+    private String encryptedValue;
     private String hashAndEncryptedValue;
     private String b64String;
 }

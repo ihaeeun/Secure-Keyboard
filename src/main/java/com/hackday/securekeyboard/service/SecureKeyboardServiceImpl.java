@@ -1,20 +1,14 @@
 package com.hackday.securekeyboard.service;
 
+import static com.hackday.securekeyboard.SecureKeyboardApplication.*;
+
 import java.io.File;
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.hackday.securekeyboard.dto.KeypadDto;
 import com.hackday.securekeyboard.util.Encryption;
-//import com.hackday.securekeyboard.util.Encryption;
+import com.hackday.securekeyboard.vo.KeyMappingSet;
 
 @Service
 public class SecureKeyboardServiceImpl implements SecureKeyboardService {
@@ -46,9 +40,11 @@ public class SecureKeyboardServiceImpl implements SecureKeyboardService {
     @Override
     public ArrayList<KeypadDto> generateKeypadImages() {
         ArrayList<KeypadDto> keypadDtoList = new ArrayList<KeypadDto>(10);
-        List<String> hashedKeyList = null;
+        List<String> encryptedKeyList = null;
+        List<String> hashedAndEncryptedKeyList = null;
         try {
-            hashedKeyList = encryptionUtil.rsaToSha1(encryptionUtil.rsaEncryption());
+            encryptedKeyList = encryptionUtil.rsaEncryption();
+            hashedAndEncryptedKeyList = encryptionUtil.rsaToSha1(encryptedKeyList);
         } catch (Exception e) {
             // TODO : runtime exception 상속받아서 던질 것!
             e.printStackTrace();
@@ -58,15 +54,35 @@ public class SecureKeyboardServiceImpl implements SecureKeyboardService {
         ArrayList<String> b64ImageStrings = new ArrayList<>(10);
         for (int i = 0; i < 10; i++) {
             b64ImageStrings.add(getBase64FromFile("img/" + i + ".png"));
-            keypadDtoList.add(new KeypadDto(hashedKeyList.get(i), b64ImageStrings.get(i)));
+            keypadDtoList.add(new KeypadDto(
+                encryptedKeyList.get(i),
+                hashedAndEncryptedKeyList.get(i),
+                b64ImageStrings.get(i)
+            ));
         }
 
-        keypadDtoList.add(new KeypadDto("blank", getBase64FromFile("img/blank.png")));
-        keypadDtoList.add(new KeypadDto("blank", getBase64FromFile("img/blank.png")));
+        keypadDtoList.add(new KeypadDto("blank", "blank", getBase64FromFile("img/blank.png")));
+        keypadDtoList.add(new KeypadDto("blank", "blank", getBase64FromFile("img/blank.png")));
 
         // 여기서 순서를 섞어 준 다음에
         Collections.shuffle(keypadDtoList);
         return keypadDtoList;
+    }
+
+    @Override
+    public String addToKeyMappingTable(ArrayList<KeypadDto> keypadDtoList) {
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        KeyMappingSet keyMappingSet = new KeyMappingSet();
+        keyMappingSet.setEncrytedOnly(new ArrayList<>(10));
+        keyMappingSet.setHashedAndEncrypted(new ArrayList<>(10));
+
+        for (KeypadDto keypadDto : keypadDtoList) {
+            keyMappingSet.getEncrytedOnly().add(keypadDto.getEncryptedValue());
+            keyMappingSet.getHashedAndEncrypted().add(keypadDto.getHashAndEncryptedValue());
+        }
+
+        globalKeyMappingTable.put(uuid, keyMappingSet);
+        return uuid;
     }
 
 }
