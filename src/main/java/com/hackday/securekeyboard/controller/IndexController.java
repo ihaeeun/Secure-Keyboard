@@ -8,19 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping(value="/", method= RequestMethod.GET) // it is mapped to the TestController
+@RequestMapping(value = "/", method = RequestMethod.GET) // it is mapped to the TestController
 public class IndexController {
     @GetMapping("/")
-    public String index(){
+    public String index() {
         return "index";
     }
 
     @GetMapping("/register/{card-company}")
-    public String register(@PathVariable("card-company") String company, Model model){
-        model.addAttribute("");
+    public String register(@PathVariable("card-company") String company, Model model) {
         return "register";
     }
-
 
 }
 
