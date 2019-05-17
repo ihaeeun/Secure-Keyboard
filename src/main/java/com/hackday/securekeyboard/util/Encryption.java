@@ -1,6 +1,5 @@
 package com.hackday.securekeyboard.util;
 
-
 import com.hackday.securekeyboard.exception.EncryptException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +32,6 @@ public class Encryption {
         Key decodedKey = KeyFactory.getInstance("RSA").generatePublic(
             new X509EncodedKeySpec(Base64.getDecoder().decode(publicKey)));
 
-        log.debug("{}", decodedKey);
 
         Cipher cipher = Cipher.getInstance("RSA");
 

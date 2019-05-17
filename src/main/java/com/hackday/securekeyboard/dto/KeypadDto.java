@@ -1,13 +1,14 @@
 package com.hackday.securekeyboard.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class KeypadDto {
-    private String hash;
-    private String base64;
+    private String encryptedValue;
+    private String hashAndEncryptedValue;
+    private String b64String;
 }

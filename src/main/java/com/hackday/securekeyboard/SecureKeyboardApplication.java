@@ -8,12 +8,10 @@ import java.util.Hashtable;
 
 @SpringBootApplication
 public class SecureKeyboardApplication {
-
     public static Hashtable<String, KeyMappingSet> globalKeyMappingTable;
 
     public static void main(String[] args) {
         globalKeyMappingTable = new Hashtable<>();
         SpringApplication.run(SecureKeyboardApplication.class, args);
     }
-
 }
